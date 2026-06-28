@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Checker - Glossy Glass Edition</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            /* Fluent Mesh Gradient for premium Light Glass aesthetics */
+            background: radial-gradient(circle at 10% 20%, rgba(224, 236, 255, 0.65) 0%, rgba(245, 228, 255, 0.65) 90%),
+                        linear-gradient(135deg, #cbd5e1 0%, #d8e2ef 50%, #e2e8f0 100%);
+            background-attachment: fixed;
+        }
+        /* Glossy Acrylic Glass Main Panel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            box-shadow: 0 25px 55px rgba(100, 116, 139, 0.08),
+                        inset 0 1.5px 0 rgba(255, 255, 255, 0.75);
+        }
+        /* Hyper Glossy Input / Dropdowns */
+        .glossy-field {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.6),
+                        0 4px 10px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glossy-field:focus {
+            background: rgba(255, 255, 255, 0.65);
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.7),
+                        0 0 15px rgba(99, 102, 241, 0.15);
+        }
+        /* Metallic Primary Indigo Button */
+        .glossy-btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            box-shadow: 0 5px 18px rgba(79, 70, 229, 0.22),
+                        inset 0 1.5px 0 rgba(255, 255, 255, 0.35);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glossy-btn-primary:hover {
+            transform: translateY(-1.5px);
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.32),
+                        inset 0 1.5px 0 rgba(255, 255, 255, 0.45);
+        }
+        /* Glass Danger Crimson Button */
+        .glossy-btn-danger {
+            background: rgba(244, 63, 94, 0.08);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            color: #e11d48;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+        .glossy-btn-danger:hover {
+            background: rgba(244, 63, 94, 0.16);
+            border-color: rgba(244, 63, 94, 0.38);
+        }
+        /* Both Input and Output custom scrollbar thumb styled elegantly */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.22);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between py-8 px-4">
+
+    <!-- Main Container (Glossy Card) -->
+    <main class="max-w-md w-full mx-auto glass-panel rounded-[2.3rem] p-6 relative overflow-hidden">
+        
+        <!-- Premium Header Banner -->
+        <div class="text-center mb-6 relative z-10">
+            <div class="inline-flex items-center justify-center p-3 bg-gradient-to-tr from-indigo-500 to-indigo-600 rounded-2xl shadow-md shadow-indigo-500/10 mb-3 border border-white/40">
+                <i class="fa-solid fa-square-poll-vertical text-2xl text-white"></i>
+            </div>
+            <!-- Beautiful Highlighted Title (Indigo-Violet Gradient Drop Shadow) -->
+            <h1 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 drop-shadow-sm filter saturate-150">
+                Report Checker
+            </h1>
+        </div>
+
+        <!-- Form Elements -->
+        <div class="space-y-4 relative z-10">
+            
+            <!-- Report Type Dropdown -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                    <i class="fa-solid fa-tags mr-1 text-indigo-600"></i> রিপোর্ট টাইপ
+                </label>
+                <div class="relative">
+                    <select id="reportType" onchange="updateSelectionInfo()" class="w-full glossy-field rounded-xl px-4 py-3.5 text-sm text-slate-800 focus:outline-none appearance-none cursor-pointer">
+                        <option value="">সিলেক্ট করুন</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <!-- Date Dropdown -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                    <i class="fa-solid fa-calendar-days mr-1 text-indigo-600"></i> তারিখ
+                </label>
+                <div class="relative">
+                    <select id="reportDate" onchange="updateSelectionInfo()" class="w-full glossy-field rounded-xl px-4 py-3.5 text-sm text-slate-800 focus:outline-none appearance-none cursor-pointer">
+                        <option value="">সিলেক্ট করুন</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <!-- Horizontal Inline Layout (Side-by-Side Date & Type on One Line) -->
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <!-- Left Card: Date -->
+                <div class="bg-white/45 backdrop-blur-md p-3 rounded-2xl border border-white/55 flex flex-col justify-center shadow-sm">
+                    <span class="text-slate-500 font-bold flex items-center gap-1 mb-1">
+                        <i class="fa-regular fa-calendar text-indigo-600"></i> নির্বাচিত তারিখ:
+                    </span>
+                    <span id="selectedDateText" class="font-extrabold text-slate-800 tracking-tight text-center bg-white/70 py-1.5 rounded-lg border border-white/40 shadow-sm">-</span>
+                </div>
+                <!-- Right Card: Type -->
+                <div class="bg-white/45 backdrop-blur-md p-3 rounded-2xl border border-white/55 flex flex-col justify-center shadow-sm">
+                    <span class="text-slate-500 font-bold flex items-center gap-1 mb-1">
+                        <i class="fa-regular fa-folder-open text-indigo-600"></i> নির্বাচিত টাইপ:
+                    </span>
+                    <span id="selectedTypeText" class="font-extrabold text-slate-800 text-center bg-white/70 py-1.5 rounded-lg border border-white/40 shadow-sm truncate block max-w-full" title="-">-</span>
+                </div>
+            </div>
+
+            <!-- Premium Glossy Textarea Input Area with Custom Scrollbar -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">প্রতি লাইনে একটি আইডি লিখুন</label>
+                <div class="relative">
+                    <!-- Added pr-5 to prevent scrollbar overlapping on text -->
+                    <textarea id="userIdsInput" rows="6" oninput="updateLineCount()" 
+                        placeholder="UID দিন (প্রতি লাইনে একটি)&#10;61591072925264&#10;61591422470207&#10;61592764964918" 
+                        class="w-full glossy-field rounded-2xl pt-4 pb-4 pl-4 pr-5 text-sm font-mono text-slate-800 placeholder-slate-400 focus:outline-none resize-none shadow-sm min-h-[160px] custom-scrollbar"></textarea>
+                    
+                    <!-- Highly Beautiful Cyan-Teal Gradient Badge (Completely distinct from Indigo) -->
+                    <div class="absolute bottom-4 right-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl shadow-md shadow-cyan-500/15 border border-white/20 transition-all">
+                        <span id="lineCounter">০ টি আইডি</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Layout -->
+            <div class="flex gap-3 pt-1">
+                <!-- Professional Red Clear Button -->
+                <button onclick="clearAll()" class="w-[28%] glossy-btn-danger text-xs font-bold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-trash-can"></i> ক্লিয়ার
+                </button>
+                <!-- Large Corporate Primary Action Button -->
+                <button onclick="checkReports()" class="w-[72%] glossy-btn-primary text-white font-bold text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bolt text-xs mr-0.5"></i> চেক করুন
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Result Section (Initially Hidden) -->
+        <div id="resultContainer" class="mt-6 border-t border-white/40 pt-5 space-y-4 hidden relative z-10">
+            
+            <!-- Highly Highlighted Okay ID Card (Glossy Emerald Gradient) -->
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-5 rounded-2xl flex items-center justify-between shadow-lg shadow-emerald-500/15 transform transition hover:scale-[1.01] duration-300 border border-white/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-circle-check text-xl"></i>
+                    </div>
+                    <h3 class="text-base font-extrabold text-white">Okay ID পাওয়া গেছে:</h3>
+                </div>
+                <div class="text-4xl font-black tracking-tight" id="okayCount">০</div>
+            </div>
+
+            <!-- Clean Unhighlighted Back ID Row (Muted Glossy) -->
+            <div class="bg-white/45 backdrop-blur-md border border-white/55 px-4 py-3 rounded-xl flex items-center justify-between text-xs shadow-sm">
+                <div class="flex items-center gap-2 text-slate-500 font-bold">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-400 shadow-sm shadow-rose-400/20 animate-pulse"></span>
+                    <span>Back ID পাওয়া গেছে:</span>
+                </div>
+                <div class="font-extrabold text-rose-600 text-sm bg-rose-50 border border-rose-100 px-3 py-1 rounded-lg" id="backCount">০</div>
+            </div>
+
+            <!-- Unified Results Box Container (Glass Container) -->
+            <div class="bg-white/35 backdrop-blur-md border border-white/55 rounded-2xl p-1.5 shadow-sm">
+                <div class="space-y-1.5 max-h-56 overflow-y-auto custom-scrollbar pr-1" id="resultsList">
+                    <!-- Rows rendered dynamically inside this layout -->
+                </div>
+            </div>
+
+            <!-- Corporate Copy Tool Buttons (Glossy Action Panel) -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+                <!-- Okay ID Copy Button -->
+                <button onclick="copyIds('OK')" class="bg-white/60 hover:bg-white/80 text-emerald-600 border border-white/80 text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                    <i class="fa-regular fa-circle-check text-sm"></i> Okay ID কপি
+                </button>
+                <!-- Back ID Copy Button -->
+                <button onclick="copyIds('BACK')" class="bg-white/60 hover:bg-white/80 text-rose-500 border border-white/80 text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                    <i class="fa-regular fa-circle-xmark text-sm"></i> Back ID কপি
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-500 mt-6 tracking-wider font-bold">
+        developer MOTALEB
+    </footer>
+
+    <!-- Toast Notification System -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md border border-white text-slate-800 text-xs px-4 py-3 rounded-full shadow-xl transition-all duration-300 transform translate-y-20 opacity-0 z-50 flex items-center gap-2 font-bold"></div>
+
+    <script>
+        // সরাসরি আপনার ফায়ারবেস ডেটাবেস লিঙ্ক যুক্ত করা হলো
+        const FIREBASE_URL = "https://report-checker-f0822-default-rtdb.firebaseio.com/reports.json";
+
+        let reportsData = [];
+        let okayListGlobal = [];
+        let backListGlobal = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadReportsData();
+            setupPasteAndInputCleaners();
+        });
+
+        // ফায়ারবেস থেকে লাইভ ডাটা লোড করা
+        function loadReportsData() {
+            fetch(FIREBASE_URL)
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        if (Array.isArray(data)) {
+                            reportsData = data.filter(item => item !== null);
+                        } else {
+                            reportsData = Object.keys(data).map(key => {
+                                return { id: key, ...data[key] };
+                            });
+                        }
+                    } else {
+                        reportsData = [];
+                    }
+                    populateDropdowns();
+                })
+                .catch(err => {
+                    showToast('<i class="fa-solid fa-circle-xmark text-rose-500"></i> ডাটাবেস সংযোগে সমস্যা!');
+                });
+        }
+
+        function populateDropdowns() {
+            const typeDropdown = document.getElementById('reportType');
+            const dateDropdown = document.getElementById('reportDate');
+
+            typeDropdown.innerHTML = '<option value="">সিলেক্ট করুন</option>';
+            dateDropdown.innerHTML = '<option value="">সিলেক্ট করুন</option>';
+
+            if (reportsData.length === 0) return;
+
+            const uniqueTypes = [...new Set(reportsData.map(item => item.type))];
+            uniqueTypes.forEach(type => {
+                const opt = document.createElement('option');
+                opt.value = type;
+                opt.textContent = type;
+                typeDropdown.appendChild(opt);
+            });
+
+            const uniqueDates = [...new Set(reportsData.map(item => item.date))];
+            uniqueDates.sort((a, b) => new Date(b) - new Date(a));
+            const latest7Dates = uniqueDates.slice(0, 7);
+
+            latest7Dates.forEach(date => {
+                const opt = document.createElement('option');
+                opt.value = date;
+                opt.textContent = formatDate(date);
+                dateDropdown.appendChild(opt);
+            });
+        }
+
+        function updateSelectionInfo() {
+            const typeVal = document.getElementById('reportType').value;
+            const dateVal = document.getElementById('reportDate').value;
+
+            document.getElementById('selectedTypeText').textContent = typeVal ? typeVal : '-';
+            document.getElementById('selectedTypeText').title = typeVal ? typeVal : '-';
+            document.getElementById('selectedDateText').textContent = dateVal ? formatDate(dateVal) : '-';
+        }
+
+        // Native-friendly buffer clean-up strategy
+        function setupPasteAndInputCleaners() {
+            const textarea = document.getElementById('userIdsInput');
+            
+            // Runs clean up 50ms after any native paste event completes (Compatible with long press)
+            textarea.addEventListener('paste', () => {
+                setTimeout(() => {
+                    sanitizeTextarea();
+                }, 50);
+            });
+
+            // Also clean up when user clicks out of the input box
+            textarea.addEventListener('blur', () => {
+                sanitizeTextarea();
+            });
+        }
+
+        function sanitizeTextarea() {
+            const textarea = document.getElementById('userIdsInput');
+            let text = textarea.value;
+            
+            // Filter out completely empty lines
+            let cleanedLines = text.split(/\r?\n/)
+                .map(line => line.trim())
+                .filter(line => line !== '');
+            
+            textarea.value = cleanedLines.join('\n');
+            updateLineCount();
+        }
+
+        function getInputIds() {
+            const textInput = document.getElementById('userIdsInput').value;
+            return [...new Set(textInput.split('\n')
+                .map(id => id.trim())
+                .filter(id => id !== ''))];
+        }
+
+        function updateLineCount() {
+            const uniqueIds = getInputIds();
+            document.getElementById('lineCounter').textContent = `${englishToBengaliNumber(uniqueIds.length)} টি আইডি`;
+        }
+
+        function checkReports() {
+            const selectedType = document.getElementById('reportType').value;
+            const selectedDate = document.getElementById('reportDate').value;
+            const inputIds = getInputIds();
+
+            if (!selectedType || !selectedDate) {
+                showToast('<i class="fa-solid fa-circle-exclamation text-indigo-500"></i> অনুগ্রহ করে টাইপ এবং তারিখ সিলেক্ট করুন!');
+                return;
+            }
+
+            if (inputIds.length === 0) {
+                showToast('<i class="fa-solid fa-circle-exclamation text-indigo-500"></i> অনুগ্রহ করে অন্তত একটি আইডি ইনপুট দিন!');
+                return;
+            }
+
+            const matchedReports = reportsData.filter(item => item.date === selectedDate && item.type === selectedType);
+            
+            let allowedOkIds = [];
+            matchedReports.forEach(r => {
+                if (r.ok_ids && Array.isArray(r.ok_ids)) {
+                    allowedOkIds = allowedOkIds.concat(r.ok_ids);
+                }
+            });
+
+            allowedOkIds = [...new Set(allowedOkIds)];
+
+            okayListGlobal = [];
+            backListGlobal = [];
+            
+            const resultsList = document.getElementById('resultsList');
+            resultsList.innerHTML = '';
+
+            inputIds.forEach(id => {
+                const isOk = allowedOkIds.includes(id);
+                if (isOk) {
+                    okayListGlobal.push(id);
+                } else {
+                    backListGlobal.push(id);
+                }
+
+                // Premium individual result rows inside the unified Glass Box
+                const row = document.createElement('div');
+                row.className = isOk 
+                    ? 'flex items-center justify-between bg-white/55 border-l-4 border-l-emerald-500 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm'
+                    : 'flex items-center justify-between bg-white/55 border-l-4 border-l-rose-400 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm';
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5 font-mono">
+                        <i class="${isOk ? 'fa-regular fa-circle-check text-emerald-500' : 'fa-regular fa-circle-xmark text-rose-500'} text-sm"></i>
+                        <span class="text-slate-700 font-bold">${id}</span>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded ${isOk ? 'bg-emerald-500/10 text-emerald-600' : 'bg-rose-500/10 text-rose-500'}">
+                        ${isOk ? '✓ OK' : '✗ BACK'}
+                    </span>
+                `;
+                resultsList.appendChild(row);
+            });
+
+            document.getElementById('okayCount').textContent = englishToBengaliNumber(okayListGlobal.length);
+            document.getElementById('backCount').textContent = englishToBengaliNumber(backListGlobal.length);
+            
+            const container = document.getElementById('resultContainer');
+            container.classList.remove('hidden');
+            container.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        function clearAll() {
+            document.getElementById('userIdsInput').value = '';
+            document.getElementById('lineCounter').textContent = '০ টি আইডি';
+            document.getElementById('resultContainer').classList.add('hidden');
+            showToast('<i class="fa-solid fa-circle-check text-emerald-500"></i> ইনপুট আইডি ক্লিয়ার করা হয়েছে!');
+        }
+
+        function copyIds(type) {
+            const listToCopy = type === 'OK' ? okayListGlobal : backListGlobal;
+            if (listToCopy.length === 0) {
+                showToast('<i class="fa-solid fa-circle-exclamation text-amber-500"></i> কপি করার মতো কোনো আইডি নেই!');
+                return;
+            }
+
+            const textToCopy = listToCopy.join('\n');
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast(`<i class="fa-solid fa-circle-check text-emerald-500"></i> ${type === 'OK' ? 'Okay' : 'Back'} আইডি কপি করা সফল হয়েছে!`);
+            }).catch(() => {
+                showToast('<i class="fa-solid fa-circle-xmark text-rose-500"></i> কপি করা যায়নি!');
+            });
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', options).toUpperCase();
+        }
+
+        function englishToBengaliNumber(num) {
+            const search = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            const replace = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return String(num).replace(/[0-9]/g, function (match) {
+                return replace[search.indexOf(match)];
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = message;
+            toast.classList.remove('opacity-0', 'translate-y-20');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-20');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
