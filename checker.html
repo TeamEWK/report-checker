@@ -305,6 +305,14 @@
             document.getElementById('selectedTypeText').textContent = typeVal ? typeVal : '-';
             document.getElementById('selectedTypeText').title = typeVal ? typeVal : '-';
             document.getElementById('selectedDateText').textContent = dateVal ? formatDate(dateVal) : '-';
+
+            // Instagram টাইপ সিলেক্ট করলে প্লেসহোল্ডার ডাইনামিকলি পরিবর্তন হবে
+            const textarea = document.getElementById('userIdsInput');
+            if (typeVal && (typeVal.toLowerCase().includes('instagram') || typeVal.toLowerCase().includes('insta') || typeVal.toLowerCase().includes('ig'))) {
+                textarea.placeholder = "Username দিন (প্রতি লাইনে একটি)\nUsername_1\nUsername_2\nUsername_3";
+            } else {
+                textarea.placeholder = "UID দিন (প্রতি লাইনে একটি)\n61591072925264\n61591422470207\n61592764964918";
+            }
         }
 
         // Native-friendly buffer clean-up strategy
@@ -386,83 +394,4 @@
                 if (isOk) {
                     okayListGlobal.push(id);
                 } else {
-                    backListGlobal.push(id);
-                }
-
-                // Premium individual result rows inside the unified Glass Box
-                const row = document.createElement('div');
-                row.className = isOk 
-                    ? 'flex items-center justify-between bg-white/55 border-l-4 border-l-emerald-500 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm'
-                    : 'flex items-center justify-between bg-white/55 border-l-4 border-l-rose-400 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm';
-
-                row.innerHTML = `
-                    <div class="flex items-center gap-2.5 font-mono">
-                        <i class="${isOk ? 'fa-regular fa-circle-check text-emerald-500' : 'fa-regular fa-circle-xmark text-rose-500'} text-sm"></i>
-                        <span class="text-slate-700 font-bold">${id}</span>
-                    </div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded ${isOk ? 'bg-emerald-500/10 text-emerald-600' : 'bg-rose-500/10 text-rose-500'}">
-                        ${isOk ? '✓ OK' : '✗ BACK'}
-                    </span>
-                `;
-                resultsList.appendChild(row);
-            });
-
-            document.getElementById('okayCount').textContent = englishToBengaliNumber(okayListGlobal.length);
-            document.getElementById('backCount').textContent = englishToBengaliNumber(backListGlobal.length);
-            
-            const container = document.getElementById('resultContainer');
-            container.classList.remove('hidden');
-            container.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
-
-        function clearAll() {
-            document.getElementById('userIdsInput').value = '';
-            document.getElementById('lineCounter').textContent = '০ টি আইডি';
-            document.getElementById('resultContainer').classList.add('hidden');
-            showToast('<i class="fa-solid fa-circle-check text-emerald-500"></i> ইনপুট আইডি ক্লিয়ার করা হয়েছে!');
-        }
-
-        function copyIds(type) {
-            const listToCopy = type === 'OK' ? okayListGlobal : backListGlobal;
-            if (listToCopy.length === 0) {
-                showToast('<i class="fa-solid fa-circle-exclamation text-amber-500"></i> কপি করার মতো কোনো আইডি নেই!');
-                return;
-            }
-
-            const textToCopy = listToCopy.join('\n');
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast(`<i class="fa-solid fa-circle-check text-emerald-500"></i> ${type === 'OK' ? 'Okay' : 'Back'} আইডি কপি করা সফল হয়েছে!`);
-            }).catch(() => {
-                showToast('<i class="fa-solid fa-circle-xmark text-rose-500"></i> কপি করা যায়নি!');
-            });
-        }
-
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', options).toUpperCase();
-        }
-
-        function englishToBengaliNumber(num) {
-            const search = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            const replace = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-            return String(num).replace(/[0-9]/g, function (match) {
-                return replace[search.indexOf(match)];
-            });
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerHTML = message;
-            toast.classList.remove('opacity-0', 'translate-y-20');
-            toast.classList.add('opacity-100', 'translate-y-0');
-
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'translate-y-20');
-            }, 2500);
-        }
-    </script>
-</body>
-</html>
+                    backListGlobal.pu
