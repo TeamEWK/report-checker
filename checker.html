@@ -305,14 +305,6 @@
             document.getElementById('selectedTypeText').textContent = typeVal ? typeVal : '-';
             document.getElementById('selectedTypeText').title = typeVal ? typeVal : '-';
             document.getElementById('selectedDateText').textContent = dateVal ? formatDate(dateVal) : '-';
-
-            // Instagram টাইপ সিলেক্ট করলে প্লেসহোল্ডার ডাইনামিকলি পরিবর্তন হবে
-            const textarea = document.getElementById('userIdsInput');
-            if (typeVal && (typeVal.toLowerCase().includes('instagram') || typeVal.toLowerCase().includes('insta') || typeVal.toLowerCase().includes('ig'))) {
-                textarea.placeholder = "Username দিন (প্রতি লাইনে একটি)\nUsername_1\nUsername_2\nUsername_3";
-            } else {
-                textarea.placeholder = "UID দিন (প্রতি লাইনে একটি)\n61591072925264\n61591422470207\n61592764964918";
-            }
         }
 
         // Native-friendly buffer clean-up strategy
@@ -394,4 +386,13 @@
                 if (isOk) {
                     okayListGlobal.push(id);
                 } else {
-                    backListGlobal.pu
+                    backListGlobal.push(id);
+                }
+
+                // Premium individual result rows inside the unified Glass Box
+                const row = document.createElement('div');
+                row.className = isOk 
+                    ? 'flex items-center justify-between bg-white/55 border-l-4 border-l-emerald-500 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm'
+                    : 'flex items-center justify-between bg-white/55 border-l-4 border-l-rose-400 border-white/50 border px-4 py-3 text-xs rounded-xl transition-all shadow-sm';
+
+            
